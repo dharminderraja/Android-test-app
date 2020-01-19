@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="veterinary.clinic.android.home.HomeViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8dp"
+            android:padding="@dimen/_4dp">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_20dp"
+                android:visibility="@{model.isFetchingConfig ? View.VISIBLE : View.GONE}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_20dp"
+                android:text="@string/error_msg"
+                android:visibility="@{model.showConfigError ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:orientation="vertical"
+                android:visibility="@{model.isFetchingConfig ? View.GONE : View.VISIBLE}">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/chatBtn"
+                        style="@style/ButtonStyle"
+                        android:layout_width="@dimen/_0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/blue_button"
+                        android:text="@string/chat"
+                        android:textSize="22sp"
+                        android:visibility="@{model.chatEnabled ? View.VISIBLE : View.GONE}" />
+
+                    <Button
+                        android:id="@+id/callBtn"
+                        style="@style/ButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/green_button"
+                        android:text="@string/call"
+                        android:visibility="@{model.callEnabled ? View.VISIBLE : View.GONE}" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60dp"
+                    android:layout_marginTop="@dimen/_12dp"
+                    android:background="@drawable/border_background"
+                    android:gravity="center"
+                    android:padding="@dimen/_8dp"
+                    android:text="@{model.workHoursString}"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="@{model.workHoursString.length() > 0 ? View.VISIBLE : View.GONE}"
+                    tools:text="Office Hours: M-F 10:00 - 18:00" />
+
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{model.isFetchingPets ? View.VISIBLE : View.GONE}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/error_msg"
+                android:visibility="@{model.showPetError ? View.VISIBLE : View.GONE}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/petsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_8dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_marginEnd="@dimen/_8dp"
+                android:overScrollMode="never"
+                android:visibility="@{model.showPetError ? View.GONE : View.VISIBLE}" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>
